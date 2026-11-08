@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pocket money tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f1ff;--card:#fff;--ink:#1b1340;--mute:#6a6290;--pri:#6c4cf1;--onpri:#fff;--lime:#d4ff3f;--onlime:#1b1340;--pink:#ff6fa5;--bd:#1b1340;--track:#e6e0ff;--warn:#ff4d6d;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#150f30;--card:#221a4a;--ink:#f3efff;--mute:#a79fd0;--pri:#8f77ff;--onpri:#150f30;--lime:#d4ff3f;--onlime:#1b1340;--bd:#f3efff;--track:#352b6b}}
+:root[data-theme="dark"]{--bg:#150f30;--card:#221a4a;--ink:#f3efff;--mute:#a79fd0;--pri:#8f77ff;--onpri:#150f30;--lime:#d4ff3f;--onlime:#1b1340;--bd:#f3efff;--track:#352b6b}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.45}
+main{max-width:980px;margin:0 auto;padding:20px 14px 56px}
+h1{font-size:clamp(1.8rem,6vw,2.6rem);font-weight:800;margin:0;letter-spacing:-.03em;line-height:1.05}
+h2{font-size:1.15rem;font-weight:800;margin:0 0 12px}
+.hi{color:var(--mute);margin:6px 0 18px}
+.grid{display:grid;gap:16px;grid-template-columns:1fr}
+@media(min-width:820px){.grid{grid-template-columns:1fr 1fr}.wide{grid-column:1/-1}}
+.card{background:var(--card);border:2px solid var(--bd);border-radius:20px;padding:18px;box-shadow:5px 5px 0 var(--bd)}
+.hero{background:var(--lime);color:var(--onlime);--bd:#1b1340;display:grid;gap:18px;grid-template-columns:auto 1fr;align-items:center}
+@media(max-width:480px){.hero{grid-template-columns:1fr;justify-items:center;text-align:center}}
+.ring{position:relative;width:150px;height:150px}
+.ring svg{transform:rotate(-90deg)}
+.ring b{position:absolute;inset:0;display:grid;place-items:center;font-size:1.7rem;font-weight:800}
+.big{font-size:2.6rem;font-weight:800;letter-spacing:-.03em;line-height:1.05}
+.hero p{margin:4px 0}
+.hero label{display:inline-flex;gap:8px;align-items:center;margin-top:8px;font-weight:600}
+.hero input{width:110px;background:#fff;color:#1b1340}
+.pill{display:inline-block;background:#1b1340;color:#d4ff3f;border-radius:99px;padding:3px 12px;font-weight:600;font-size:.9rem}
+input,select,button{font:inherit;color:inherit}
+input{padding:10px 12px;border:2px solid var(--bd);border-radius:12px;background:var(--card);width:100%}
+input:focus-visible,button:focus-visible,.chips input:focus-visible+span{outline:3px solid var(--pri);outline-offset:2px}
+form{display:grid;gap:12px;grid-template-columns:1fr 1fr}
+.full{grid-column:1/-1}
+label.f{font-weight:600;font-size:.88rem;display:grid;gap:4px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips label{cursor:pointer}
+.chips input{position:absolute;opacity:0;width:1px;height:1px}
+.chips span{display:inline-block;padding:7px 12px;border:2px solid var(--bd);border-radius:99px;font-weight:600;background:var(--card);transition:transform .12s}
+.chips input:checked+span{background:var(--pri);color:var(--onpri);transform:translateY(-2px)}
+.btn{background:var(--pri);color:var(--onpri);border:2px solid var(--bd);border-radius:14px;padding:12px;font-weight:800;font-size:1.05rem;cursor:pointer;box-shadow:3px 3px 0 var(--bd)}
+.btn:active{transform:translate(3px,3px);box-shadow:none}
+.ins{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.ins li{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:14px;background:var(--track)}
+.ins li.warn{background:var(--warn);color:#fff}
+.ins .e{font-size:1.4rem;line-height:1.2}
+.bar{display:grid;grid-template-columns:96px 1fr 68px;gap:10px;align-items:center;margin:9px 0;font-size:.92rem;font-weight:600}
+.bar .t{height:14px;background:var(--track);border-radius:8px;overflow:hidden}
+.bar .t i{display:block;height:100%;border-radius:8px;transition:width .4s}
+.bar b{text-align:right}
+.list{display:grid;gap:8px}
+.row{display:grid;grid-template-columns:auto 1fr auto auto;gap:12px;align-items:center;padding:8px 10px;border-radius:14px;background:var(--track)}
+.row .em{font-size:1.5rem}
+.row small{color:var(--mute);display:block}
+.x{background:none;border:0;cursor:pointer;font-size:1.3rem;color:var(--mute);padding:4px 8px}
+.x:hover{color:var(--warn)}
+.empty{color:var(--mute);padding:8px 0}
+.scroll{overflow-x:auto}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<main>
+<h1>Pocket money tracker</h1>
+<p class="hi" id="hi"></p>
+
+<div class="grid">
+<div class="card hero wide">
+  <div class="ring"><svg width="150" height="150" viewBox="0 0 150 150"><circle cx="75" cy="75" r="62" fill="none" stroke="#1b1340" stroke-opacity=".15" stroke-width="18"/><circle id="arc" cx="75" cy="75" r="62" fill="none" stroke="#1b1340" stroke-width="18" stroke-linecap="round" stroke-dasharray="390" stroke-dashoffset="390" style="transition:stroke-dashoffset .5s"/></svg><b id="pct">0%</b></div>
+  <div>
+    <p>You can spend about</p>
+    <div class="big" id="safe">₹0</div>
+    <p id="safeSub">per day for the rest of the month</p>
+    <span class="pill" id="spent"></span><br>
+    <label>Monthly budget ₹<input id="budget" type="number" min="0" step="500" aria-label="Monthly budget"></label>
+  </div>
+</div>
+
+<div class="card">
+  <h2>Add what you spent</h2>
+  <form id="f">
+    <div class="full chips" id="chips" role="radiogroup" aria-label="Category"></div>
+    <label class="f">Amount (₹)<input id="amount" type="number" inputmode="decimal" min="1" step="0.01" required placeholder="150"></label>
+    <label class="f">Date<input id="date" type="date" required></label>
+    <label class="f full">Note (optional)<input id="note" maxlength="50" placeholder="Chai with friends"></label>
+    <button class="btn full" type="submit">Add expense</button>
+  </form>
+</div>
+
+<div class="card">
+  <h2>Your insights</h2>
+  <ul class="ins" id="insights"></ul>
+</div>
+
+<div class="card">
+  <h2>Where it went</h2>
+  <div id="cats"></div>
+</div>
+
+<div class="card">
+  <h2>This week</h2>
+  <div class="scroll"><svg id="chart" viewBox="0 0 320 160" width="100%" role="img" aria-label="Spending over the last 7 days"></svg></div>
+</div>
+
+<div class="card wide">
+  <h2>Recent expenses</h2>
+  <div class="list" id="rows"></div>
+  <div class="empty" id="empty" hidden>Nothing here yet. Add your first expense above.</div>
+</div>
+</div>
+</main>
+
+<script>
+const CATS={Food:["🍜","#ff7a45"],Travel:["🚌","#17b8a6"],Books:["📚","#4f8cff"],Rent:["🏠","#8f77ff"],Fun:["🎮","#ff6fa5"],Shopping:["🛍️","#e0b100"],Other:["✨","#8a86a8"]};
+const $=id=>document.getElementById(id);
+const fmt=n=>"₹"+Math.round(n).toLocaleString("en-IN");
+const iso=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+const today=new Date(), ym=iso(today).slice(0,7);
+const prev=new Date(today.getFullYear(),today.getMonth()-1,1), pym=iso(prev).slice(0,7);
+let id=1,budget=8000,items=[];
+
+function seed(){
+  [["Food",120,"Canteen lunch"],["Travel",40,"Bus pass top-up"],["Books",450,"Notes printout"],["Fun",300,"Movie night"],["Food",90,"Chai and samosa"],["Shopping",700,"Headphones"],["Food",150,"Dinner with friends"],["Travel",60,"Auto"],["Rent",2500,"Hostel share"]]
+  .forEach((x,i)=>{const d=new Date(today);d.setDate(Math.max(1,today.getDate()-i));items.push({id:id++,cat:x[0],amount:x[1],note:x[2],date:iso(d)})});
+  [["Food",2400],["Rent",2500],["Fun",900],["Travel",600]].forEach(x=>items.push({id:id++,cat:x[0],amount:x[1],note:"",date:iso(new Date(prev.getFullYear(),prev.getMonth(),12))}));
+}
+try{const s=localStorage.getItem("pocket-v2");if(s){const o=JSON.parse(s);items=o.items||[];budget=o.budget??budget;id=o.id||1}else seed()}catch(e){seed()}
+function save(){try{localStorage.setItem("pocket-v2",JSON.stringify({items,budget,id}))}catch(e){}}
+
+$("chips").innerHTML=Object.entries(CATS).map(([c,v],i)=>`<label><input type="radio" name="cat" value="${c}" ${i?"":"checked"}><span>${v[0]} ${c}</span></label>`).join("");
+$("date").value=iso(today);$("budget").value=budget;
+const h=today.getHours();
+$("hi").textContent=(h<12?"Good morning":h<18?"Good afternoon":"Good evening")+"! Here’s how your money looks this month.";
+
+$("f").addEventListener("submit",e=>{
+  e.preventDefault();
+  const a=parseFloat($("amount").value);if(!(a>0))return;
+  items.push({id:id++,cat:document.querySelector('input[name=cat]:checked').value,amount:a,note:$("note").value.trim(),date:$("date").value});
+  $("amount").value="";$("note").value="";save();render();
+});
+$("budget").addEventListener("input",e=>{budget=Math.max(0,parseFloat(e.target.value)||0);save();render()});
+$("rows").addEventListener("click",e=>{const b=e.target.closest("[data-id]");if(!b)return;items=items.filter(i=>i.id!=b.dataset.id);save();render()});
+const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function render(){
+  const cur=items.filter(i=>i.date.startsWith(ym)), old=items.filter(i=>i.date.startsWith(pym));
+  const sum=a=>a.reduce((t,i)=>t+i.amount,0);
+  const tot=sum(cur), day=today.getDate(), dim=new Date(today.getFullYear(),today.getMonth()+1,0).getDate();
+  const left=dim-day+1;
+
+  // hero
+  const p=budget?Math.min(100,tot/budget*100):0;
+  $("arc").style.strokeDashoffset=390-390*p/100;
+  $("pct").textContent=Math.round(p)+"%";
+  $("spent").textContent=fmt(tot)+" spent"+(budget?" of "+fmt(budget):"");
+  if(!budget){$("safe").textContent="—";$("safeSub").textContent="Set a budget to see your daily limit"}
+  else if(tot>=budget){$("safe").textContent="₹0";$("safeSub").textContent="You’re "+fmt(tot-budget)+" over budget. Try a no-spend day."}
+  else{$("safe").textContent=fmt((budget-tot)/left);$("safeSub").textContent="per day for the next "+left+" days"}
+
+  // categories
+  const by={};cur.forEach(i=>by[i.cat]=(by[i.cat]||0)+i.amount);
+  const ents=Object.entries(by).sort((a,b)=>b[1]-a[1]), max=ents.length?ents[0][1]:1;
+  $("cats").innerHTML=ents.length?ents.map(([c,v])=>`<div class="bar"><span>${CATS[c][0]} ${c}</span><div class="t"><i style="width:${v/max*100}%;background:${CATS[c][1]}"></i></div><b>${fmt(v)}</b></div>`).join(""):'<div class="empty">No spending yet this month.</div>';
+
+  // insights
+  const ins=[];
+  if(cur.length){
+    const [tc,tv]=ents[0];
+    ins.push(["🏆",`${tc} takes the biggest bite: ${Math.round(tv/tot*100)}% of what you’ve spent.`]);
+    const proj=tot/day*dim;
+    if(budget) ins.push(proj>budget?["⚠️",`At this pace you’ll spend about ${fmt(proj)}, which is ${fmt(proj-budget)} over budget.`,1]:["✅",`You’re on track. At this pace you’ll finish around ${fmt(proj)}.`]);
+    const wk=cur.filter(i=>(today-new Date(i.date+"T00:00"))/864e5<7);
+    ins.push(["📅",`You’ve spent ${fmt(sum(wk))} in the last 7 days, about ${fmt(sum(wk)/7)} a day.`]);
+    const pSame=sum(old.filter(i=>+i.date.slice(8)<=day));
+    if(pSame) ins.push(tot>pSame?["📈",`You’re spending ${fmt(tot-pSame)} more than this time last month.`,1]:["📉",`Nice! ${fmt(pSame-tot)} less than this time last month.`]);
+    const f=by.Food||0; if(f>tot*.35) ins.push(["🍜",`Food is over a third of your spending. Cooking or the canteen could save money.`]);
+  }
+  $("insights").innerHTML=ins.length?ins.map(([e,t,w])=>`<li class="${w?"warn":""}"><span class="e">${e}</span><span>${t}</span></li>`).join(""):'<li><span class="e">👋</span><span>Add a few expenses and your insights will show up here.</span></li>';
+
+  // week chart
+  const days=[];for(let k=6;k>=0;k--){const d=new Date(today);d.setDate(d.getDate()-k);days.push({k:iso(d),l:d.toLocaleDateString("en-IN",{weekday:"short"}),v:0})}
+  items.forEach(i=>{const d=days.find(x=>x.k===i.date);if(d)d.v+=i.amount});
+  const m=Math.max(1,...days.map(d=>d.v));
+  $("chart").innerHTML=days.map((d,i)=>{const ht=d.v/m*105,x=i*46+8;return `<rect x="${x}" y="${125-ht}" width="32" height="${Math.max(ht,d.v?4:2)}" rx="8" fill="${i===6?"var(--pri)":"var(--track)"}" stroke="var(--bd)" stroke-width="2"><title>${d.l}: ${fmt(d.v)}</title></rect><text x="${x+16}" y="145" font-size="11" font-weight="600" text-anchor="middle" fill="var(--mute)">${d.l}</text>`+(d.v?`<text x="${x+16}" y="${119-ht}" font-size="10" font-weight="700" text-anchor="middle" fill="var(--ink)">${Math.round(d.v)}</text>`:"")}).join("");
+
+  // list
+  const rows=[...items].sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id).slice(0,10);
+  $("rows").innerHTML=rows.map(i=>`<div class="row"><span class="em">${CATS[i.cat][0]}</span><div><b>${esc(i.note||i.cat)}</b><small>${new Date(i.date+"T00:00").toLocaleDateString("en-IN",{day:"numeric",month:"short"})} · ${i.cat}</small></div><b>${fmt(i.amount)}</b><button class="x" data-id="${i.id}" aria-label="Delete expense">×</button></div>`).join("");
+  $("empty").hidden=items.length>0;
+}
+render();
+</script>
+</body>
+</html>

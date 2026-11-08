@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#18181b"/>
+      <stop offset="100%" stop-color="#09090b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#818cf8"/>
+      <stop offset="50%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#ec4899"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#818cf8"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Outer Rounded Rectangle -->
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <rect width="504" height="504" x="4" y="4" rx="108" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="4"/>
+
+  <!-- Stylized Z and Indian Rupee / Spark Line -->
+  <!-- Background Glow Circle -->
+  <circle cx="256" cy="256" r="160" fill="url(#accent)" opacity="0.15" filter="blur(20px)"/>
+  
+  <!-- Z-Bar Top -->
+  <path d="M140 160 H372 C386 160 394 174 388 186 L210 332 H372 C384 332 392 342 392 352 C392 362 384 372 372 372 H140 C126 372 118 358 124 346 L302 200 H140 C128 200 120 190 120 180 C120 170 128 160 140 160 Z" fill="url(#accent)"/>
+
+  <!-- Currency / Bolt accent -->
+  <circle cx="360" cy="180" r="18" fill="#38bdf8"/>
+  <circle cx="152" cy="352" r="18" fill="#ec4899"/>
+</svg>

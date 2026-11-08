@@ -1,0 +1,6 @@
+{
+  "name": "Expense Tracker & Spending Insights - Complete Project Dossier",
+  "description": "Complete B.Tech CSE project dossier, technical report, live interactive modules for Roles 1, 2, 4 with Role 3 frontend integration, automated test runner, viva Q&A, and 10-page PDF generator.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

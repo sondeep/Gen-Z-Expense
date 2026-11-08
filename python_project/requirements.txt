@@ -1,0 +1,8 @@
+# Expense Tracker with Spending Insights - Dependencies
+# Course: B.Tech CSE, 2nd Year, Group 3G
+# Industry Readiness Programme I - End Term I
+
+pandas>=2.0.0
+matplotlib>=3.7.0
+streamlit>=1.28.0
+pytest>=7.4.0
